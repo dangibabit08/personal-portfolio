@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Babit Dangi — babitdangi.com.np</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0d0d;
+      --surface: #141414;
+      --border: #222;
+      --accent: #c9a96e;
+      --accent2: #7eb8a4;
+      --text: #e8e4dc;
+      --muted: #5a574f;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.4;
+    }
+
+    /* header bar */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 2.5rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(13,13,13,0.85);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+      animation: fadeDown 0.8s ease both;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      letter-spacing: 0.02em;
+      color: var(--accent);
+    }
+
+    .domain-tag {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    /* hero */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 6rem 2rem 4rem;
+      position: relative;
+    }
+
+    /* decorative corner lines */
+    .hero::before, .hero::after {
+      content: '';
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border: 1px solid var(--border);
+    }
+    .hero::before { top: 80px; left: 40px; border-right: none; border-bottom: none; }
+    .hero::after  { bottom: 40px; right: 40px; border-left: none; border-top: none; }
+
+    .hero-inner {
+      max-width: 780px;
+      text-align: center;
+      animation: fadeUp 1s 0.2s ease both;
+    }
+
+    .eyebrow {
+      font-size: 0.62rem;
+      letter-spacing: 0.25em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 1.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+    .eyebrow span { display: inline-block; width: 28px; height: 1px; background: var(--accent); }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.2rem, 9vw, 7rem);
+      line-height: 1.05;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+      letter-spacing: -0.01em;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .subtitle {
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin: 1.6rem 0 2.8rem;
+    }
+
+    .welcome-msg {
+      font-size: 0.88rem;
+      line-height: 1.9;
+      color: #9a9389;
+      max-width: 480px;
+      margin: 0 auto 3rem;
+    }
+
+    /* status badge */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.55rem 1.2rem;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      color: var(--accent2);
+      text-transform: uppercase;
+      background: rgba(126,184,164,0.05);
+      animation: fadeUp 1s 0.5s ease both;
+    }
+
+    .badge-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent2);
+      animation: pulse 2s infinite;
+    }
+
+    /* divider strip */
+    .strip {
+      border-top: 1px solid var(--border);
+      padding: 1.5rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      text-transform: uppercase;
+      animation: fadeUp 1s 0.7s ease both;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .strip-item { display: flex; align-items: center; gap: 0.5rem; }
+    .strip-item::before { content: '—'; color: var(--border); }
+
+    /* contact section */
+    .contact-section {
+      border-top: 1px solid var(--border);
+      padding: 4rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+      animation: fadeUp 1s 0.9s ease both;
+    }
+
+    .contact-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .contact-links {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .contact-links a {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      color: var(--text);
+      text-decoration: none;
+      text-transform: uppercase;
+      padding: 0.65rem 1.4rem;
+      border: 1px solid var(--border);
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+
+    .contact-links a:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(201,169,110,0.05);
+    }
+
+    /* footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.25rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    /* animations */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    @media (max-width: 600px) {
+      header { padding: 1rem 1.25rem; }
+      .hero::before, .hero::after { width: 80px; height: 80px; }
+      .strip { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+      footer { flex-direction: column; gap: 0.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">Babit Dangi</div>
+    <div class="domain-tag">babitdangi.com.np</div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="eyebrow"><span></span> Welcome <span></span></div>
+        <h1>Babit<br><em>Dangi</em></h1>
+        <p class="subtitle">babitdangi.com.np &mdash; My corner of the web</p>
+        <p class="welcome-msg">
+          This is my homepage. I've just registered my domain and this space
+          is coming together soon. Stay tuned — good things are on the way.
+        </p>
+        <div class="badge">
+          <span class="badge-dot"></span>
+          Site under construction
+        </div>
+      </div>
+    </section>
+
+    <div class="strip">
+      <span class="strip-item">Nepal 🇳🇵</span>
+      <span class="strip-item">Domain Registered</span>
+      <span class="strip-item">More coming soon</span>
+    </div>
+
+    <section class="contact-section">
+      <div class="contact-label">Get in touch</div>
+      <div class="contact-links">
+        <a href="mailto:hello@babitdangi.com.np">Email</a>
+        <a href="https://github.com/" target="_blank">GitHub</a>
+        <a href="https://linkedin.com/" target="_blank">LinkedIn</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>&copy; 2026 Babit Dangi</span>
+    <span>babitdangi.com.np</span>
+  </footer>
+
+</body>
+</html>
